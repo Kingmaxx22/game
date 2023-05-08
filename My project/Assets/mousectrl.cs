@@ -14,5 +14,7 @@ public class mousectrl : MonoBehaviour
         rotx += Input.GetAxis("Mouse Y") * sens*-1;
         roty += Input.GetAxis("Mouse X") * sens;
         transform.localEulerAngles = new Vector3(rotx, roty, 0);
+
+        Debug.Log(rotx);
     }
 }
