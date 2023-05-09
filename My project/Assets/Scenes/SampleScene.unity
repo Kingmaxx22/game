@@ -751,7 +751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  orientation: {fileID: 1688599778}
+  orientation: {fileID: 963194228}
 --- !u!1 &1794349972
 GameObject:
   m_ObjectHideFlags: 0
