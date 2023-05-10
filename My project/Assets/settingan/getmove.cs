@@ -15,11 +15,11 @@ public class getmove : MonoBehaviour
     private KeyCode W = KeyCode.W;
     private float movespd = 12f;
     private float sprintingspd = 30f;
+    private float jumpforce = 20f;
     [HideInInspector] public Vector3 dir;
     float hzinput, vinput;
     CharacterController controller;
-
-    [SerializeField] float groundyoff;
+    [SerializeField] Transform groundcheck;
     [SerializeField] LayerMask groundmask;
     Vector3 spherepos;
 
@@ -41,6 +41,7 @@ public class getmove : MonoBehaviour
         Getdirandmove();
         Gravity();
         Debug.Log(velocity);
+        jump();
     }
 
 
@@ -53,23 +54,23 @@ public class getmove : MonoBehaviour
         controller.Move(dir.normalized * (issprinting ? sprintingspd : movespd) * Time.deltaTime);
 
     }
+    
 
     bool IsGrounded()
     {
-        spherepos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        if (Physics.CheckSphere(spherepos, controller.radius = 0.05f, groundmask)) return true;
-        return false;
+        return Physics.CheckSphere(groundcheck.position, .1f, groundmask);
     }
     void Gravity()
     {
         if (!IsGrounded()) velocity.y += gravity * Time.deltaTime;
-        else if (velocity.y < 0) velocity.y = -2;
+        else if (velocity.y < 0) velocity.y = 0;
         controller.Move(velocity * Time.deltaTime);
     }
 
-    private void OnDrawGizmos()
+    void jump()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(spherepos, controller.radius = 0.05f);
+        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
+            velocity.y += jumpforce;
+        controller.Move(velocity * Time.deltaTime);
     }
 }
