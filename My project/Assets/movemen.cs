@@ -33,6 +33,7 @@ public class movemen : MonoBehaviour
 
     private void Start()
     {
+        readyToJump = true;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
     }
@@ -57,13 +58,16 @@ public class movemen : MonoBehaviour
         MovePlayer();
     }
 
+    
+
+
     private void Myinput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
         // when to jump
-        if(Input.GetKey(jumpkey) && readyToJump && grounded)
+        if(Input.GetKey(KeyCode.Space) && readyToJump && grounded)
         {
             readyToJump = false;
 
@@ -77,11 +81,12 @@ public class movemen : MonoBehaviour
     {
         // calculate movement diraction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
+        
         // on ground
         if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-
+        
+        
         // in air
         else if (!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
@@ -103,7 +108,7 @@ public class movemen : MonoBehaviour
     private void jump()
     {
         // reset y velocity
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        rb.velocity = new Vector3(rb.velocity.x, 10f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }

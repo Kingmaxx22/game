@@ -4,28 +4,35 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float timer  = 3;
+    public bool timeron = false;
+
+    private void Start()
     {
-        
+        timeron = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (timeron)
+        {
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+
+            }
+            else { }
+            
+
+        }
         if (Input.GetKeyDown("space"))
         {
             GetComponent<Rigidbody>().velocity = new Vector3(0, 5, 0);
+
+
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 15);
-        }
-
-        if (Input.GetKey("right"))
-        {
-            GetComponent<Rigidbody>().velocity = new Vector3(15, 0, 0);
-        }
+        
     }
 }
