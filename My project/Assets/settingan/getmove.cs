@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class getmove : MonoBehaviour
 {
-    public float movespd = 3;
+    private bool issprinting => cansprint && Input.GetKey(sprintkey) && Input.GetKey(W);
+
+    [Header("functional options")]
+    [SerializeField]
+    private bool cansprint = true;
+
+    [Header("controls")]
+    private KeyCode sprintkey = KeyCode.LeftShift;
+    private KeyCode W = KeyCode.W;
+    private float movespd = 12f;
+    private float sprintingspd = 30f;
     [HideInInspector] public Vector3 dir;
     float hzinput, vinput;
     CharacterController controller;
@@ -30,32 +40,30 @@ public class getmove : MonoBehaviour
     {
         Getdirandmove();
         Gravity();
+
     }
+
 
 
     void Getdirandmove()
     {
-        hzinput = Input.GetAxis("Horizontal")   ;
-        vinput = Input.GetAxis("Vertical")      ;
-
+        hzinput = Input.GetAxis("Horizontal");
+        vinput = Input.GetAxis("Vertical");
         dir = transform.forward * vinput + transform.right * hzinput;
-
-        controller.Move(dir.normalized * movespd * Time.deltaTime);
+        controller.Move(dir.normalized * (issprinting ? sprintingspd : movespd) * Time.deltaTime);
 
     }
 
-    bool IsGrounded ()
+    bool IsGrounded()
     {
         spherepos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        if (Physics.CheckSphere(spherepos, controller.radius = 0.05f,groundmask)) return true ;
+        if (Physics.CheckSphere(spherepos, controller.radius = 0.05f, groundmask)) return true;
         return false;
     }
     void Gravity()
     {
         if (!IsGrounded()) velocity.y += gravity * Time.deltaTime;
-        else if (velocity.y <0) velocity.y = -2;
-
-
+        else if (velocity.y < 0) velocity.y = -2;
         controller.Move(velocity * Time.deltaTime);
     }
 
