@@ -40,7 +40,7 @@ public class getmove : MonoBehaviour
 
         dir = transform.forward * vinput + transform.right * hzinput;
 
-        controller.Move(dir * movespd * Time.deltaTime);
+        controller.Move(dir.normalized * movespd * Time.deltaTime);
 
     }
 
