@@ -13,9 +13,13 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< Updated upstream
         if (Input.GetKeyDown("space"))
         {
             GetComponent<Rigidbody>().velocity = new Vector3(0, 5, 0);
         }
+=======
+        
+>>>>>>> Stashed changes
     }
 }
