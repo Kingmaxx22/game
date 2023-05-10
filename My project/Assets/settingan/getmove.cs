@@ -40,7 +40,7 @@ public class getmove : MonoBehaviour
     {
         Getdirandmove();
         Gravity();
-
+        Debug.Log(velocity);
     }
 
 
