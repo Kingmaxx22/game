@@ -9,6 +9,14 @@ public class getmove : MonoBehaviour
     float hzinput, vinput;
     CharacterController controller;
 
+    [SerializeField] float groundyoff;
+    [SerializeField] LayerMask groundmask;
+    Vector3 spherepos;
+
+    [SerializeField] float gravity = -20f;
+    Vector3 velocity;
+
+
 
 
     // Start is called before the first frame update
@@ -21,6 +29,7 @@ public class getmove : MonoBehaviour
     void Update()
     {
         Getdirandmove();
+        Gravity();
     }
 
 
@@ -33,5 +42,26 @@ public class getmove : MonoBehaviour
 
         controller.Move(dir * movespd * Time.deltaTime);
 
+    }
+
+    bool IsGrounded ()
+    {
+        spherepos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        if (Physics.CheckSphere(spherepos, controller.radius = 0.05f,groundmask)) return true ;
+        return false;
+    }
+    void Gravity()
+    {
+        if (!IsGrounded()) velocity.y += gravity * Time.deltaTime;
+        else if (velocity.y <0) velocity.y = -2;
+
+
+        controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(spherepos, controller.radius = 0.05f);
     }
 }
